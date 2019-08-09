@@ -2,14 +2,11 @@
 
 namespace Gekko\Console\PHP;
 
-use \Gekko\Console\{ ConsoleContext, Command};
+use \Gekko\Console\{ ConsoleContext, Command, ProcessSpawner};
 
-class FastCGICommand extends PHPCommand
+class FastCGICommand extends Command
 {
-    public function __construct(ConsoleContext $ctx)
-    {
-        parent::__construct($ctx);
-    }
+    use ProcessSpawner;
 
     public function run(ConsoleContext $ctx) : int
     {
@@ -38,11 +35,11 @@ class FastCGICommand extends PHPCommand
 
     public function start(ConsoleContext $ctx) : int
     {
-        return $this->startProcess("php-cgi", "php-cgi -b 127.0.0.1:9123");
+        return $this->spawn($ctx, "php-cgi", "php-cgi", "-b 127.0.0.1:9123");
     }
 
     public function stop(ConsoleContext $ctx) : bool
     {
-        return $this->stopProcess("php-cgi");
+        return $this->kill($ctx, "php-cgi", "php-cgi");
     }
 }

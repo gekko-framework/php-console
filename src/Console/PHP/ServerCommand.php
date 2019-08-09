@@ -2,14 +2,11 @@
 
 namespace Gekko\Console\PHP;
 
-use \Gekko\Console\{ ConsoleContext, Command};
+use \Gekko\Console\{ ConsoleContext, Command, ProcessSpawner };
 
-class ServerCommand extends PHPCommand
+class ServerCommand extends Command
 {
-    public function __construct(ConsoleContext $ctx)
-    {
-        parent::__construct($ctx);
-    }
+    use ProcessSpawner;
 
     public function run(ConsoleContext $ctx) : int
     {
@@ -24,13 +21,13 @@ class ServerCommand extends PHPCommand
         
         if ($operation === "start")
         {
-            $pid = $this->startProcess("php-server", "php -S localhost:8080 index.php");
+            $pid = $this->spawn($ctx, "php-server", "php", "-S localhost:8080 index.php");
 
             return $pid > 0 ? 0 : -1;
         }
         else if ($operation === "stop")
         {
-            return $this->stopProcess("php-server") ? 0 : -1;
+            return $this->kill($ctx, "php-server", "php") ? 0 : -1;
         }
 
         return -2;
