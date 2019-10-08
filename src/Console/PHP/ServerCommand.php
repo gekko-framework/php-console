@@ -27,7 +27,7 @@ class ServerCommand extends Command
         }
         else if ($operation === "stop")
         {
-            return $this->kill($ctx, "php-server", "php") ? 0 : -1;
+            return $this->kill($ctx, "php-server") ? 0 : -1;
         }
 
         return -2;

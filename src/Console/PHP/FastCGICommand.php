@@ -40,6 +40,6 @@ class FastCGICommand extends Command
 
     public function stop(ConsoleContext $ctx) : bool
     {
-        return $this->kill($ctx, "php-cgi", "php-cgi");
+        return $this->kill($ctx, "php-cgi");
     }
 }
